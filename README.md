@@ -45,7 +45,7 @@ This project is licensed under the [MIT](https://choosealicense.com/licenses/mit
 This project was made possible thanks to the following resources:
 
 
-<img src="https://seeklogo.com/images/O/openweather-logo-3CE20F48B5-seeklogo.com.png" alt="OpenWeather" width="80" height="20"><br>
+<img src="https://seeklogo.com/images/O/openweather-logo-3CE20F48B5-seeklogo.com.png" alt="OpenWeather" width="100" height="50"><br>
 
 
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) 

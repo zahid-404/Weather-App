@@ -5,44 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App</title>
     <link rel="shortcut icon" href="/assets/favicon-b48ef328.svg" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;500;600;700&display=swap"
+    />
     
-    <script type="module" crossorigin src="/assets/index-be88f908.js"></script>
-    <link rel="stylesheet" href="/assets/index-d07e29f5.css">
+    <script type="module" crossorigin src="/assets/index-d4d257c4.js"></script>
+    <link rel="stylesheet" href="/assets/index-a4554671.css">
   </head>
   <body>
     <!-- Wrapper Starts -->
-    <div class="wrapper">
+    <div
+      class="wrapper w-screen h-screen text-colorLight2 bg-gradient-to-r from-colorDark1 to-colorDark2 bg-cover overflow-x-hidden"
+    >
       <!-- Heading -->
-      <h1>Weather App</h1>
+      <h1
+        class="text-center uppercase text-3xl font-bold tracking-[1.75px] pt-[35px]"
+      >
+        Weather App
+      </h1>
       <!-- Heading -->
 
       <!-- Tab Container Start -->
-      <div class="tab-container">
-        <p class="tab" data-userWeather>Your Weather</p>
+      <div
+        class="tab-container w-[90%] max-w-[550px] flex justify-between my-0 mx-auto mt-16"
+      >
+        <p class="tab current-tab" data-userWeather>Your Weather</p>
         <p class="tab" data-searchWeather>Search Weather</p>
+      </div>
+      <!-- Tab Container End -->
 
-        <!-- Weather Container Start -->
-        <div class="weather-container">
-          <!-- Location Container Start -->
-          <div class="grant-location-container">
-            <img
-              src="/assets/location-c5bb2680.png"
-              width="80"
-              height="80"
-              loading="lazy"
-            />
-            <p>Grant Location Access</p>
-            <p>Allow access to get weather information</p>
-            <button class="btn" data-grantAccess>Grant Access</button>
-          </div>
-          <!-- Location Container End -->
+      <!-- Weather Container Start -->
+      <div class="weather-container my-8">
+        <!-- Location Container Start -->
+        <div class="hidden sub-container grant-location-container">
+          <img
+            src="/assets/location-c5bb2680.png"
+            width="80"
+            height="80"
+            loading="lazy"
+            class="mb-[2rem]"
+          />
+          <p class="text-[1.75rem] font-semibold">Grant Location Access</p>
+          <p
+            data-messageText
+            class="text-[0.85rem] font-medium mt-3 mb-7 tracking-[0.75px]"
+          >
+            Allow access to get weather information
+          </p>
+          <button
+            class="btn text-sm uppercase rounded-[5px] bg-colorDark2 cursor-pointer py-[10px] px-[30px] mb-[10px]"
+            data-grantAccess
+          >
+            Grant Access
+          </button>
         </div>
-        <!-- Weather Container End -->
+        <!-- Location Container End -->
 
         <!-- Search Form Start -->
-        <form class="form-container" data-searchForm>
-          <input placeholder="Search for City..." data-searchInput />
-          <button class="btn">
+        <form
+          class="form-container hidden w-[40%] max-[550px] my-0 mx-auto mb-12 justify-center items-center gap-y-0 gap-x-2.5"
+          data-searchForm
+        >
+          <input class="" placeholder="Search for City..." data-searchInput />
+          <button
+            class="btn w-[40px] h-[40px] grid place-items-center rounded-full cursor-pointer bg-colorDark2"
+          >
             <img
               src="data:image/png;base64,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"
               width="20"
@@ -54,36 +82,38 @@
         <!-- Search Form End -->
 
         <!-- Loading Screen Start -->
-        <div class="loading-container">
+        <div class="loading-container sub-container hidden">
           <img
             src="/assets/loading-e56b4dae.gif"
             width="150"
             height="150"
             loading="lazy"
           />
-          <p>Loading</p>
+          <p class="uppercase">Loading</p>
         </div>
         <!-- Loading Screen End -->
 
         <!-- Weather Information Start -->
-        <div class="user-info-container">
+        <div class="user-info-container sub-container hidden">
           <!-- city name & flag -->
-          <div class="name">
-            <p data-cityName></p>
-            <img data-countryIcon />
+          <div class="name flex items-center gap-y-0 gap-x-2 mb-4">
+            <p class="text-[2rem]" data-cityName></p>
+            <img class="w-[30px] h-[30px]" data-countryIcon />
           </div>
 
           <!-- weather description -->
-          <p data-weatherDesc></p>
+          <p class="text-2xl font-extralight" data-weatherDesc></p>
 
           <!-- weather icon -->
-          <img data-weatherIcon />
+          <img class="w-[90px] h-[90px]" data-weatherIcon />
 
           <!-- temperature -->
-          <p data-temp></p>
+          <p class="text-[2.75rem] font-bold" data-temp></p>
 
           <!-- 3 cards parameter -->
-          <div class="parameter-container">
+          <div
+            class="parameter-container w-[90%] my-0 mx-auto flex flex-wrap gap-y-[10px] gap-x-[20px] justify-center mt-8"
+          >
             <!-- card 1 -->
             <div class="parameter">
               <img src="data:image/png;base64,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" />
@@ -106,8 +136,18 @@
           </div>
         </div>
         <!-- Weather Information End -->
+
+        <!-- API Error Start -->
+        <div class="sub-container api-error-container hidden">
+          <img class="" src="/assets/not-found-2d816d0f.png" data-notfoundimg="" />
+          <p data-apierrortext="">city not found</p>
+          <button class="btn" data-apierrorbtn="" style="display: none">
+            Retry
+          </button>
+        </div>
+        <!-- API Error End -->
       </div>
-      <!-- Tab Container End -->
+      <!-- Weather Container End -->
     </div>
     <!-- Wrapper End -->
 

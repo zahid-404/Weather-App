@@ -2,13 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
-.tab.current-tab {
-  background-color: rgba(219, 226, 239, 0.5);
-  border-radius: 4px;
+*,
+*::before,
+*::after {
+  @apply m-0 p-0 box-border font-merriweather;
 }
 
-.form-container.active {
-  scale: 1;
-  opacity: 1;
-  display: flex;
+.active {
+  @apply flex;
+}
+
+.current-tab {
+  @apply bg-btnCol rounded;
+}
+
+.tab {
+  @apply cursor-pointer text-[0.875rem] tracking-[1.75px] py-[5px] px-[8px];
+}
+
+.sub-container {
+  @apply w-[90%] my-0 mx-auto max-w-[1000px]  flex-col items-center;
+}
+
+.parameter {
+  @apply flex flex-col justify-between items-center gap-y-[5px] gap-x-0 w-[30%] max-w-[200px] bg-btnCol rounded-[5px] p-4;
+}
+
+.parameter img {
+  @apply w-[50px] h-[50px];
+}
+
+.parameter p:first-of-type {
+  @apply text-[1.15rem] font-semibold uppercase;
+}
+
+.parameter p:last-of-type {
+  @apply text-base font-extralight;
+}
+
+.form-container input {
+  all: unset;
+  width: calc(100% - 80px);
+  height: 40px;
+  padding: 0 20px;
+  background-color: rgba(219, 226, 239, 0.5);
+  border-radius: 10px;
+}
+
+.form-container input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.form-container input:focus {
+  outline: 3px solid rgba(255, 255, 255, 0.7);
 }

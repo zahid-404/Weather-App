@@ -5,42 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App</title>
     <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;500;600;700&display=swap"
+    />
     <link rel="stylesheet" href="./main.css" />
   </head>
   <body>
     <!-- Wrapper Starts -->
-    <div class="wrapper">
+    <div
+      class="wrapper w-screen h-screen text-colorLight2 bg-gradient-to-r from-colorDark1 to-colorDark2 bg-cover overflow-x-hidden"
+    >
       <!-- Heading -->
-      <h1>Weather App</h1>
+      <h1
+        class="text-center uppercase text-3xl font-bold tracking-[1.75px] pt-[35px]"
+      >
+        Weather App
+      </h1>
       <!-- Heading -->
 
       <!-- Tab Container Start -->
-      <div class="tab-container">
-        <p class="tab" data-userWeather>Your Weather</p>
+      <div
+        class="tab-container w-[90%] max-w-[550px] flex justify-between my-0 mx-auto mt-16"
+      >
+        <p class="tab current-tab" data-userWeather>Your Weather</p>
         <p class="tab" data-searchWeather>Search Weather</p>
+      </div>
+      <!-- Tab Container End -->
 
-        <!-- Weather Container Start -->
-        <div class="weather-container">
-          <!-- Location Container Start -->
-          <div class="grant-location-container">
-            <img
-              src="./assets/location.png"
-              width="80"
-              height="80"
-              loading="lazy"
-            />
-            <p>Grant Location Access</p>
-            <p>Allow access to get weather information</p>
-            <button class="btn" data-grantAccess>Grant Access</button>
-          </div>
-          <!-- Location Container End -->
+      <!-- Weather Container Start -->
+      <div class="weather-container my-8">
+        <!-- Location Container Start -->
+        <div class="hidden sub-container grant-location-container">
+          <img
+            src="./assets/location.png"
+            width="80"
+            height="80"
+            loading="lazy"
+            class="mb-[2rem]"
+          />
+          <p class="text-[1.75rem] font-semibold">Grant Location Access</p>
+          <p
+            data-messageText
+            class="text-[0.85rem] font-medium mt-3 mb-7 tracking-[0.75px]"
+          >
+            Allow access to get weather information
+          </p>
+          <button
+            class="btn text-sm uppercase rounded-[5px] bg-colorDark2 cursor-pointer py-[10px] px-[30px] mb-[10px]"
+            data-grantAccess
+          >
+            Grant Access
+          </button>
         </div>
-        <!-- Weather Container End -->
+        <!-- Location Container End -->
 
         <!-- Search Form Start -->
-        <form class="form-container" data-searchForm>
-          <input placeholder="Search for City..." data-searchInput />
-          <button class="btn">
+        <form
+          class="form-container hidden w-[40%] max-[550px] my-0 mx-auto mb-12 justify-center items-center gap-y-0 gap-x-2.5"
+          data-searchForm
+        >
+          <input class="" placeholder="Search for City..." data-searchInput />
+          <button
+            class="btn w-[40px] h-[40px] grid place-items-center rounded-full cursor-pointer bg-colorDark2"
+          >
             <img
               src="./assets/search.png"
               width="20"
@@ -52,36 +80,38 @@
         <!-- Search Form End -->
 
         <!-- Loading Screen Start -->
-        <div class="loading-container">
+        <div class="loading-container sub-container hidden">
           <img
             src="./assets/loading.gif"
             width="150"
             height="150"
             loading="lazy"
           />
-          <p>Loading</p>
+          <p class="uppercase">Loading</p>
         </div>
         <!-- Loading Screen End -->
 
         <!-- Weather Information Start -->
-        <div class="user-info-container">
+        <div class="user-info-container sub-container hidden">
           <!-- city name & flag -->
-          <div class="name">
-            <p data-cityName></p>
-            <img data-countryIcon />
+          <div class="name flex items-center gap-y-0 gap-x-2 mb-4">
+            <p class="text-[2rem]" data-cityName></p>
+            <img class="w-[30px] h-[30px]" data-countryIcon />
           </div>
 
           <!-- weather description -->
-          <p data-weatherDesc></p>
+          <p class="text-2xl font-extralight" data-weatherDesc></p>
 
           <!-- weather icon -->
-          <img data-weatherIcon />
+          <img class="w-[90px] h-[90px]" data-weatherIcon />
 
           <!-- temperature -->
-          <p data-temp></p>
+          <p class="text-[2.75rem] font-bold" data-temp></p>
 
           <!-- 3 cards parameter -->
-          <div class="parameter-container">
+          <div
+            class="parameter-container w-[90%] my-0 mx-auto flex flex-wrap gap-y-[10px] gap-x-[20px] justify-center mt-8"
+          >
             <!-- card 1 -->
             <div class="parameter">
               <img src="./assets/wind.png" />
@@ -104,8 +134,18 @@
           </div>
         </div>
         <!-- Weather Information End -->
+
+        <!-- API Error Start -->
+        <div class="sub-container api-error-container hidden">
+          <img class="" src="./assets/not-found.png" data-notfoundimg="" />
+          <p data-apierrortext="">city not found</p>
+          <button class="btn" data-apierrorbtn="" style="display: none">
+            Retry
+          </button>
+        </div>
+        <!-- API Error End -->
       </div>
-      <!-- Tab Container End -->
+      <!-- Weather Container End -->
     </div>
     <!-- Wrapper End -->
 

@@ -9,6 +9,8 @@ const userInfoContainer = document.querySelector(".user-info-container");
 const grantAccessButton = document.querySelector("[data-grantAccess]");
 const messageText = document.querySelector("[data-messageText]");
 const searchInput = document.querySelector("[data-searchInput]");
+
+// For handling errors
 const apiErrorContainer = document.querySelector(".api-error-container");
 const apiErrorImg = document.querySelector("[data-notFoundImg]");
 const apiErrorMessage = document.querySelector("[data-apiErrorText]");
@@ -55,14 +57,48 @@ function getFromSessionStorage() {
   }
 }
 
-// Function for fetch user weather info
+// function to get current location of user
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+  } else {
+    grantAccessButton.style.display = "none";
+    messageText.innerText = "Geolocation is not supported by your browser";
+  }
+}
+
+// Function for getting corrdinates from session storage
+function showPosition(position) {
+  const userCoordinates = {
+    lat: position.coords.latitude,
+    long: position.coords.longitude,
+  };
+  sessionStorage.setItem("user-coordinates", JSON.stringify(userCoordinates));
+  fetchUserWeatherInfo(userCoordinates);
+}
+
+// Handle any errors
+function showError(error) {
+  switch (error.code) {
+    case error.PERMISSION_DENIED:
+      messageText.innerText = "You denied the request for Geolocation.";
+      break;
+    case error.POSITION_UNAVAILABLE:
+      messageText.innerText = "Location information is unavailable.";
+      break;
+    case error.TIMEOUT:
+      messageText.innerText = "The request to get user location timed out.";
+      break;
+    case error.UNKNOWN_ERROR:
+      messageText.innerText = "An unknown error occurred.";
+      break;
+  }
+}
+
+// Function for fetch user weather info by coordinates
 async function fetchUserWeatherInfo(coordinates) {
   const { lat, long } = coordinates;
-
-  // make grant container invisible
   grantAcessContainer.classList.remove("active");
-
-  // make loader invisble
   loadingScreen.classList.add("active");
 
   // API call
@@ -71,7 +107,6 @@ async function fetchUserWeatherInfo(coordinates) {
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${API_KEY}&units=metric`
     );
     const data = await response.json();
-
     loadingScreen.classList.remove("active");
     userInfoContainer.classList.add("active");
     renderWeatherInfo(data);
@@ -82,6 +117,33 @@ async function fetchUserWeatherInfo(coordinates) {
     apiErrorImg.style.display = "none";
     apiErrorMessage.innerText = `Error: ${error?.message}`;
     apiErrorBtn.addEventListener("click", fetchUserWeatherInfo);
+  }
+}
+
+// function for searching weather by city
+async function fetchSearchWeatherInfo(city) {
+  loadingScreen.classList.add("active");
+  userInfoContainer.classList.remove("active");
+  grantAcessContainer.classList.remove("active");
+  apiErrorContainer.classList.remove("active");
+  // API call
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+    );
+    const data = await response.json();
+    if (!data.sys) {
+      throw data;
+    }
+    loadingScreen.classList.remove("active");
+    userInfoContainer.classList.add("active");
+    renderWeatherInfo(data);
+  } catch (error) {
+    // console.log("Search - Api Fetch Error", error.message);
+    loadingScreen.classList.remove("active");
+    apiErrorContainer.classList.add("active");
+    apiErrorMessage.innerText = `${error?.message}`;
+    apiErrorBtn.style.display = "none";
   }
 }
 
@@ -106,69 +168,6 @@ function renderWeatherInfo(weatherInfo) {
   windspeed.innerText = `${weatherInfo?.wind?.speed} m/s`;
   humidity.innerText = `${weatherInfo?.main?.humidity} %`;
   cloudiness.innerText = `${weatherInfo?.clouds?.all} %`;
-}
-
-// function to get current location of user
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition, showError);
-  } else {
-    grantAccessButton.style.display = "none";
-    messageText.innerText = "Geolocation is not supported by your browser";
-  }
-}
-
-// Handle any errors
-function showError(error) {
-  switch (error.code) {
-    case error.PERMISSION_DENIED:
-      messageText.innerText = "You denied the request for Geolocation.";
-      break;
-    case error.POSITION_UNAVAILABLE:
-      messageText.innerText = "Location information is unavailable.";
-      break;
-    case error.TIMEOUT:
-      messageText.innerText = "The request to get user location timed out.";
-      break;
-    case error.UNKNOWN_ERROR:
-      messageText.innerText = "An unknown error occurred.";
-      break;
-  }
-}
-
-function showPosition(position) {
-  const userCoordinates = {
-    lat: position.coords.latitude,
-    long: position.coords.longitude,
-  };
-  sessionStorage.setItem("user-coordinates", JSON.stringify(userCoordinates));
-  fetchUserWeatherInfo(userCoordinates);
-}
-
-// function for searching weather by city
-async function fetchSearchWeatherInfo(city) {
-  loadingScreen.classList.add("active");
-  userInfoContainer.classList.remove("active");
-  grantAcessContainer.classList.remove("active");
-  apiErrorContainer.classList.remove("active");
-  try {
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
-    );
-    const data = await response.json();
-    if (!data.sys) {
-      throw data;
-    }
-    loadingScreen.classList.remove("active");
-    userInfoContainer.classList.add("active");
-    renderWeatherInfo(data);
-  } catch (error) {
-    // console.log("Search - Api Fetch Error", error.message);
-    loadingScreen.classList.remove("active");
-    apiErrorContainer.classList.add("active");
-    apiErrorMessage.innerText = `${error?.message}`;
-    apiErrorBtn.style.display = "none";
-  }
 }
 
 // tab switching
